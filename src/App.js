@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import { Outlet } from "react-router-dom";
+import UserContext from "./utils/UserContext";
+import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const UserProvider = ({ children }) => {
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    return (
+        <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+const App = () => {
+    return (
+        <UserProvider>
+            <div className="App">
+                <Header />
+                <Outlet />
+            </div>
+        </UserProvider>
+    );
+};
 
 export default App;
